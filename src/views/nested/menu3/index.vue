@@ -2,6 +2,9 @@
   <div style="padding:30px;">
     <div v-show="$route.meta.showfater">
       <el-form :inline="true" :model="form" class="demo-form-inline">
+        <el-form-item label="Uid" width="80px" prop="id">
+          <el-input v-model="form.id" placeholder="用户ID"></el-input>
+        </el-form-item>
         <el-form-item label="装盘抽奖券">
           <el-select v-model="form.raffleticket">
             <el-option label="10" value="10"></el-option>
@@ -10,39 +13,25 @@
           </el-select>
         </el-form-item>
         <el-form-item label="对应品级">
-          <el-select v-model="form.raffleticket">
+          <el-select v-model="form.quality">
             <el-option label="绿券" value="绿券"></el-option>
             <el-option label="紫券" value="紫券"></el-option>
             <el-option label="橙券" value="橙券"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
-      <el-button type="primary" @click="add">添加道具</el-button>
-      <!-- 表单 -->
-      <div class="tableMain">
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column prop="id" label="ID" width="180">
-          </el-table-column>
-          <el-table-column prop="raffleticket" label="装盘抽奖券" width="180">
-          </el-table-column>
-          <el-table-column prop="quality" label="对应品级" width="180">
-          </el-table-column>
-        </el-table>
-        <!-- 添加操作 -->
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑
-            </el-button>
-          </template>
-     </el-table-column>
+      <!-- 添加 -->
+      <el-button type="primary" @click="add" style="margin-right:20px">重置</el-button>
 
-
-      </div>
-      <!-- 添加弹窗 -->
+      <el-button type="primary" @click="submit">添 加</el-button>
+      <!-- 添加弹框 -->
       <el-dialog style="width: 1000px;height: 1000px;" title="添加道具" :visible.sync="zdydialog">
-      <el-form :model="form">
+      <el-form :model="form" :label-position="labelPosition">
+        <el-form-item label="Uid" prop="id">
+          <el-input  v-model="form.id" placeholder="用户ID" style="width:220px"></el-input>
+        </el-form-item>
         <el-form-item label="装盘抽奖券">
-          <el-select v-model="form.raffleticket">
+          <el-select v-model="form.raffleticket" >
             <el-option label="10" value="10"></el-option>
             <el-option label="20" value="20"></el-option>
             <el-option label="30" value="30"></el-option>
@@ -64,6 +53,17 @@
     </el-dialog>
 
 
+      <!-- 表单 -->
+      <div class="tableMain">
+        <el-table :data="tableData" style="width: 100%">
+          <el-table-column prop="id" label="Uid" width="180">
+          </el-table-column>
+          <el-table-column prop="raffleticket" label="装盘抽奖券" width="180">
+          </el-table-column>
+          <el-table-column prop="quality" label="对应品级" width="180">
+          </el-table-column>
+        </el-table>
+      </div>
 
     </div>
     <!-- 子路由 -->
@@ -74,20 +74,19 @@
 export default {
   data() {
     return {
+      labelPosition:'top',
       form: {
+        id:'',
         raffleticket: '',
+        quality:''
       },
+      zdydialog:false,
       loading: true,
       tableData: [{
         id: '0',
         raffleticket: '10',
         quality: '绿券',
-
       },],
-      zdydialog:false,
-      submitType : "",
-
-
     }
   },
 
@@ -98,24 +97,31 @@ export default {
         raffleticket:'',
         quality:''
       }
-      this.zdydialog = true;
+      this.zdydialog = false
       this.submitType = "add"
     },
     submit() {
       if(this.submitType == "add"){
         this.tableData.push(this.form)//向tableData中添加数据
+        this.zdydialog = false
       }else{
 
       }
+    },
+    cancel() {
       this.zdydialog = false
     },
-    handleEdit(index, row) {
-      console.log(index)
-      console.log(row)
-      this.submitType = "update";
-      this.row = row
-      this.zdydialog = true
-    },
+
+  },
+  //监听两个输入框的值
+  watch: {
+    form:{
+      handler(newVal,oldVal){
+        this.form.quality = this.form.raffleticket;
+
+      },
+      deep:true
+    }
   }
 
 }
