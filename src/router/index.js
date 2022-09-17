@@ -96,7 +96,7 @@ export const constantRoutes = [
     redirect: '/nested/menu1',
     name: 'Nested',
     meta: {
-      title: '开发工具',
+      title: '测试数据修改',
       icon: 'nested'
     },
     children: [
@@ -104,47 +104,29 @@ export const constantRoutes = [
         path: 'menu1',
         component: () => import('@/views/nested/menu1/index'), // Parent router-view
         name: 'Menu1',
-        meta: { title: '添加道具' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Uid' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: '属性' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: '金币' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: '宝石' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: '数值' }
-          }
-        ]
+        meta: { title: '人物信息' },
       },
       {
         path: 'menu2',
         component: () => import('@/views/nested/menu2/index'),
         name: 'Menu2',
-        meta: { title: 'menu2' }
+        meta: { title: '种子信息' }
+      },
+      {
+        path: 'menu3',
+        component: () => import('@/views/nested/menu3/index'),
+        name: 'Menu3',
+        meta: { title: '道具添加',showfater: true },
+        alwaysShow : true,
+        children: [
+          {
+            path: 'menu3-1',
+            component: () => import('@/views/nested/menu3/menu3-1/index'),
+            name: 'Menu3-1',
+            meta: { title: '其他道具' ,showfater: false},
+           
+          },
+        ],
       }
     ]
   },

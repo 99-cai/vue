@@ -12,6 +12,7 @@ export default {
   computed: {
     key() {
       return this.$route.path
+      // return this.$route.activeMenuName
     }
   }
 }
