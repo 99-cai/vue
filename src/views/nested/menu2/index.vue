@@ -2,14 +2,14 @@
   <div style="padding:30px;">
     <div>
       <el-form :inline="true" :model="form" class="demo-form-inline">
-        <el-form-item label="Uid" width="80px" prop="id">
-          <el-input v-model="form.id" placeholder="用户ID"></el-input>
+        <el-form-item label="Uid" width="80px" prop="uid">
+          <el-input v-model="form.uid" placeholder="用户ID"></el-input>
         </el-form-item>
         <el-form-item label="作物成熟时间">
-          <el-input v-model="form.time" placeholder="(单位:  秒,xx秒后成熟)" style="width:290px"></el-input>
+          <el-input v-model="form.plant" placeholder="(单位:  秒,xx秒后成熟)" style="width:290px"></el-input>
         </el-form-item>
         <el-form-item label="解锁新的种子">
-          <el-input v-model="form.newneed" placeholder="种子id" style="width:290px"></el-input>
+          <el-input v-model="form.seed" placeholder="种子id" style="width:290px"></el-input>
         </el-form-item>
         <!-- 添加 -->
         <div style="float:right">
@@ -20,14 +20,14 @@
       <!-- 添加弹框 -->
       <el-dialog style="width: 1000px;height: 1000px;" title="添加道具" :visible.sync="zdydialog">
         <el-form :model="form" :label-position="labelPosition">
-          <el-form-item label="Uid" prop="id">
-            <el-input v-model="form.id" placeholder="用户ID" style="width:220px"></el-input>
+          <el-form-item label="Uid" prop="uid">
+            <el-input v-model="form.uid" placeholder="用户ID" style="width:220px"></el-input>
           </el-form-item>
           <el-form-item label="作物成熟时间">
-            <el-input v-model="form.time" placeholder="(单位:  秒,xx秒后成熟)" style="width:290px"></el-input>
+            <el-input v-model="form.plant" placeholder="(单位:  秒,xx秒后成熟)" style="width:290px"></el-input>
           </el-form-item>
           <el-form-item label="解锁新的种子">
-            <el-input v-model="form.newneed" placeholder="种子id" style="width:290px"></el-input>
+            <el-input v-model="form.seed" placeholder="种子id" style="width:290px"></el-input>
           </el-form-item>
         </el-form>
 
@@ -41,14 +41,16 @@
       <div class="tableMain">
         <el-table :data="tableData" style="width: 100%" :cell-style="{ textAlign: 'center' }"
           :header-cell-style="{textAlign: 'center'}">
-          <el-table-column prop="id" label="Uid" style="width:220px">
+          <el-table-column prop="uid" label="Uid" style="width:220px">
+            <!-- {{form.uid}} -->
           </el-table-column>
-          <el-table-column prop="time" label="作物成熟时间" style="width:320px">
+          <el-table-column prop="plant" label="作物成熟时间" style="width:320px">
             <template slot-scope="scope">
-              {{scope.row.time}}秒后成熟
+              {{form.plant}}秒后成熟
             </template>
           </el-table-column>
-          <el-table-column prop="newneed" label="解锁种子ID" style="width:300px">
+          <el-table-column prop="seed" label="解锁种子ID" style="width:300px">
+            <!-- {{form.seed}} -->
           </el-table-column>
           <!-- 添加弹框 -->
           <el-table-column label="操作">
@@ -61,58 +63,96 @@
           </el-table-column>
         </el-table>
       </div>
+      <!-- 分页 -->
+      <div class="block" style="margin-top:15px;">
+        <el-pagination align='center' @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="currentPage" :page-sizes="[6]" :page-size="pagesize"
+          layout="total, sizes, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </div>
     </div>
     <!-- 子路由 -->
     <router-view />
   </div>
 </template>
 <script>
+// import Axios from 'axios'
+
+import axios from 'axios';
+
 export default {
   data() {
     return {
       labelPosition: 'top',
       form: {
-        id: '',
-        time: '',
-        newneed: '',
+        uid: '0',
+        plant: 12,
+        seed: 2,
       },
-      tableData: [{
-        id: '0',
-        time: '20',
-        newneed: '3',
-      },],
+      tableData: [],
       submitType: "",
       zdydialog: false,
       loading: true,
+      currentPage: 1, //初始页
+      pagesize: 6, //    每页的数据,数字是几就显示几条
+      total: 1000
     }
   },
-
+  created() {
+    this.init()
+  },
   methods: {
+    init() {
+      let _this = this;
+      axios({
+        url: 'https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet',
+        method: 'post',
+        data: {
+          uid: this.form.uid,
+          plant: this.form.plant,
+          seed: this.form.seed
+        },
+        dataType: "json"
+      }).then(res => {
+        console.log(res)
+        this.tableData = JSON.parse(JSON.stringify(this.tableData))
+        this.tableData.push(res.data)
+        // this.tableData = res.data 
+        // console.log(res.data);
+        // console.log(JSON.parse(JSON.stringify(this.tableData)));
+        //this.total = res.
+      })
+    },
     add() {
       this.form = {
-        id: '',
-        time: '',
-        newneed: ''
+        uid: '',
+        plant: '',
+        seed: ''
       }
       this.zdydialog = false
       this.submitType = "add"
     },
-    submit() {
+    //添加
+    submit(res) {
       if (this.submitType == "add") {
         this.tableData.push(this.form)//向tableData中添加数据
+        // this.tableData.push(res.data)
         this.zdydialog = false
       } else {
 
       }
     },
+    //弹框不显示
     cancel() {
       this.zdydialog = false
     },
+    //编辑
     handleEdit(index, row) {
       this.form = row     //将该行对象数据直接赋给form
       this.zdydialog = false //自定义对话框展示
       this.submitType = "update";
     },
+    //删除
     handleDelete(index, row) {
       this.$confirm('此操作将删除改操作, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -131,8 +171,15 @@ export default {
         })
       })
     },
-
-
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`)
+      this.pagesize = val;
+      this.currentPage = 1
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`)
+      this.currentPage = val;
+    },
 
   },
 

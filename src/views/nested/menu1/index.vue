@@ -1,21 +1,20 @@
 <template>
   <div style="padding:30px;">
-
     <div class="tableAll">
       <!-- <div class="addArea">
       </div> -->
       <el-form :model="form" :inline="true">
-        <el-form-item label="Uid" width="80px" prop="id">
-          <el-input class="dialog_input" v-model="form.id" placeholder="用户ID"></el-input>
+        <el-form-item label="Uid" width="80px" prop="uid">
+          <el-input class="dialog_input" v-model="form.uid" placeholder="用户ID"></el-input>
         </el-form-item>
-        <el-form-item label="金币" prop="gold">
-          <el-input v-model="form.gold" style="width:220px"></el-input>
+        <el-form-item label="金币" prop="coin">
+          <el-input v-model="form.coin" style="width:220px"></el-input>
         </el-form-item>
-        <el-form-item label="宝石" prop="preciousstone">
-          <el-input v-model="form.preciousstone" style="width:220px"></el-input>
+        <el-form-item label="宝石" prop="diamond">
+          <el-input v-model="form.diamond" style="width:220px"></el-input>
         </el-form-item>
-        <el-form-item label="积分" prop="integration">
-          <el-input v-model="form.integration" style="width:220px"></el-input>
+        <el-form-item label="积分" prop="score">
+          <el-input v-model="form.score" style="width:220px"></el-input>
         </el-form-item>
         <el-form-item label="日期" width="80px">
           <el-date-picker v-model="form.date" @change="getSTime" value-format="yyyy-MM-dd" type="date"
@@ -25,32 +24,32 @@
         <el-form-item label="装备" prop="equipment">
           <el-input v-model="form.equipment" style="width:220px"></el-input>
         </el-form-item>
-        <el-form-item label="装备等级" prop="equipmentgrade">
-          <el-input v-model="form.equipmentgrade" style="width:220px"></el-input>
+        <el-form-item label="装备等级" prop="equipLv">
+          <el-input v-model="form.equipLv" style="width:220px"></el-input>
         </el-form-item>
-        <el-form-item label="装备星级" prop="equipmentstar">
-          <el-input v-model="form.equipmentstar" style="width:220px"></el-input>
+        <el-form-item label="装备星级" prop="starLV">
+          <el-input v-model="form.starLV" style="width:220px"></el-input>
         </el-form-item>
-        <el-form-item label="装备品质" prop="equipmentquality">
-          <el-select v-model="form.equipmentquality" placeholder="选择品质" style="width:220px">
+        <el-form-item label="装备品质" prop="equipQuality">
+          <el-select v-model="form.equipQuality" placeholder="选择品质" style="width:220px">
             <el-option label="低" value="低"></el-option>
             <el-option label="中" value="中"></el-option>
             <el-option label="高" value="高"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="等级" prop="grade">
-          <el-input v-model="form.grade" style="width:220px"></el-input>
+        <el-form-item label="等级" prop="level">
+          <el-input v-model="form.level" style="width:220px"></el-input>
         </el-form-item>
-        <el-form-item label="等级经验" prop="experience">
-          <el-input v-model="form.experience" style="width:220px"></el-input>
+        <el-form-item label="等级经验" prop="exp">
+          <el-input v-model="form.exp" style="width:220px"></el-input>
         </el-form-item>
-        <el-form-item label="宠物等级" prop="pet">
-          <el-input v-model="form.pet" style="width:220px"></el-input>
+        <el-form-item label="宠物等级" prop="petLV">
+          <el-input v-model="form.petLV" style="width:220px"></el-input>
         </el-form-item>
-        <el-form-item label="现金红包" prop="cash">
-          <el-input v-model="form.cash" style="width:220px"></el-input>
+        <el-form-item label="现金红包" prop="money">
+          <el-input v-model="form.money" style="width:220px"></el-input>
         </el-form-item>
-   
+
         <div style="float:right">
           <el-button type="primary" @click="add" style="margin-right:10px">重 置</el-button>
           <el-button type="primary" @click="submit">添 加</el-button>
@@ -59,45 +58,45 @@
 
       <el-dialog style="width: 100%;height: 100vh;" title="添加道具" :visible.sync="zdydialog">
         <el-form :model="form" :inline="true">
-          <el-form-item label="Uid" width="80px" prop="id">
-            <el-input class="dialog_input" v-model="form.id" placeholder="用户ID"></el-input>
+          <el-form-item label="Uid" width="80px" prop="uid">
+            <el-input class="dialog_input" v-model="form.uid" placeholder="用户ID"></el-input>
           </el-form-item>
-          <el-form-item label="金币" prop="gold">
-            <el-input v-model="form.gold" style="width:220px"></el-input>
+          <el-form-item label="金币" prop="coin">
+            <el-input v-model="form.coin" style="width:220px"></el-input>
           </el-form-item>
-          <el-form-item label="宝石" prop="preciousstone">
-            <el-input v-model="form.preciousstone" style="width:220px"></el-input>
+          <el-form-item label="宝石" prop="diamond">
+            <el-input v-model="form.diamond" style="width:220px"></el-input>
           </el-form-item>
-          <el-form-item label="积分" prop="integration">
-            <el-input v-model="form.integration" style="width:220px"></el-input>
+          <el-form-item label="积分" prop="score">
+            <el-input v-model="form.score" style="width:220px"></el-input>
           </el-form-item>
           <el-form-item label="装备" prop="equipment">
             <el-input v-model="form.equipment" style="width:220px"></el-input>
           </el-form-item>
-          <el-form-item label="装备等级" prop="equipmentgrade">
-            <el-input v-model="form.equipmentgrade" style="width:220px"></el-input>
+          <el-form-item label="装备等级" prop="equipLv">
+            <el-input v-model="form.equipLv" style="width:220px"></el-input>
           </el-form-item>
-          <el-form-item label="装备星级" prop="equipmentstar">
-            <el-input v-model="form.equipmentstar" style="width:220px"></el-input>
+          <el-form-item label="装备星级" prop="starLV">
+            <el-input v-model="form.starLV" style="width:220px"></el-input>
           </el-form-item>
-          <el-form-item label="装备品质" prop="equipmentquality">
-            <el-select v-model="form.equipmentquality" placeholder="选择品质" style="width:220px">
+          <el-form-item label="装备品质" prop="equipQuality">
+            <el-select v-model="form.equipQuality" placeholder="选择品质" style="width:220px">
               <el-option label="低" value="低"></el-option>
               <el-option label="中" value="中"></el-option>
               <el-option label="高" value="高"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="等级" prop="grade">
-            <el-input v-model="form.grade" style="width:220px"></el-input>
+          <el-form-item label="等级" prop="level">
+            <el-input v-model="form.level" style="width:220px"></el-input>
           </el-form-item>
-          <el-form-item label="等级经验" prop="experience">
-            <el-input v-model="form.experience" style="width:220px"></el-input>
+          <el-form-item label="等级经验" prop="exp">
+            <el-input v-model="form.exp" style="width:220px"></el-input>
           </el-form-item>
-          <el-form-item label="宠物等级" prop="pet">
-            <el-input v-model="form.pet" style="width:220px"></el-input>
+          <el-form-item label="宠物等级" prop="petLV">
+            <el-input v-model="form.petLV" style="width:220px"></el-input>
           </el-form-item>
-          <el-form-item label="现金红包" prop="cash">
-            <el-input v-model="form.cash" style="width:220px"></el-input>
+          <el-form-item label="现金红包" prop="money">
+            <el-input v-model="form.money" style="width:220px"></el-input>
           </el-form-item>
           <el-form-item label="日期" width="80px">
             <el-date-picker v-model="form.date" @change="getSTime" value-format="yyyy-MM-dd" type="date"
@@ -112,31 +111,31 @@
         </div>
       </el-dialog>
       <div class="tableMain">
-        <el-table :data="tableData" style="width: 100%" :cell-style="{ textAlign: 'center' }"
-          :header-cell-style="{textAlign: 'center'}">
-          <el-table-column prop="id" label="Uid" width="90">
+        <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%"
+          :cell-style="{ textAlign: 'center' }" :header-cell-style="{textAlign: 'center'}">
+          <el-table-column prop="uid" label="Uid" width="90">
           </el-table-column>
-          <el-table-column prop="gold" label="金币" width="90">
+          <el-table-column prop="coin" label="金币" width="90">
           </el-table-column>
-          <el-table-column prop="preciousstone" label="宝石" width="90">
+          <el-table-column prop="diamond" label="宝石" width="90">
           </el-table-column>
-          <el-table-column prop="integration" label="积分" width="90">
+          <el-table-column prop="score" label="积分" width="90">
           </el-table-column>
           <el-table-column prop="equipment" label="装备" width="90">
           </el-table-column>
-          <el-table-column prop="equipmentgrade" label="装备等级" width="90">
+          <el-table-column prop="equipLv" label="装备等级" width="90">
           </el-table-column>
-          <el-table-column prop="equipmentquality" label="装备品质" width="90">
+          <el-table-column prop="equipQuality" label="装备品质" width="90">
           </el-table-column>
-          <el-table-column prop="equipmentstar" label="装备星级" width="90">
+          <el-table-column prop="starLV" label="装备星级" width="90">
           </el-table-column>
-          <el-table-column prop="grade" label="等级" width="90">
+          <el-table-column prop="level" label="等级" width="90">
           </el-table-column>
-          <el-table-column prop="experience" label="等级经验" width="90">
+          <el-table-column prop="exp" label="等级经验" width="90">
           </el-table-column>
-          <el-table-column prop="pet" label="宠物等级" width="90">
+          <el-table-column prop="petLV" label="宠物等级" width="90">
           </el-table-column>
-          <el-table-column prop="cash" label="现金红包" width="90">
+          <el-table-column prop="money" label="现金红包" width="90">
           </el-table-column>
           <el-table-column prop="date" label="日期" width="100">
           </el-table-column>
@@ -149,6 +148,13 @@
             </template>
           </el-table-column>
         </el-table>
+      </div>
+      <!-- 分页 -->
+      <div class="block" style="margin-top:15px;">
+        <el-pagination align='center' @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="currentPage" :page-sizes="[4]" :page-size="pagesize"
+          layout="total, sizes, prev, pager, next, jumper" :total="tableData.length">
+        </el-pagination>
       </div>
 
     </div>
@@ -165,52 +171,51 @@ export default {
   data() {
     return {
       tableData: [{
-        id: '0',
-        gold: '99999',
-        preciousstone: '100',
-        integration: '30',
+        uid: '0',
+        coin: '99999',
+        diamond: '100',
+        score: '30',
         equipment: '武器',
-        equipmentgrade: '100',
-        equipmentstar: '3',
-        equipmentquality: '高',
-        grade: '100',
-        experience: '0',
-        pet: '50',
-        cash: '0',
-        date: '2022-9-16'
+        equipLv: '100',
+        starLV: '3',
+        equipQuality: '高',
+        level: '100',
+        exp: '0',
+        petLV: '50',
+        money: '0',
+        date: '2022-9-19'
       }
       ],
       zdydialog: false,
       formLabelWidth: '80px',
       form: {},
       submitType: "",
+      currentPage: 1, //初始页
+      pagesize: 4, //    每页的数据,数字是几就显示几条
+      total: 1000
     }
   },
   methods: {
     add() {
       this.form = {
-        id: '',
-        gold: '',
-        preciousstone: '',
-        integration: '',
+        uid: '',
+        coin: '',
+        diamond: '',
+        score: '',
         //装备
         equipment: '',
-        equipmentgrade: '',
-        equipmentstar: '',
-        equipmentgrade: '',
+        equipLv: '',
+        starLV: '',
+        equipLv: '',
         //人物
-        grade: '',
-        experience: '',
-        pet: '',
-        cash: '',
+        level: '',
+        exp: '',
+        petLV: '',
+        money: '',
         date: ''
-
       }
       this.submitType = "add";
       this.zdydialog = false;
-      // this.form = ''
-
-
     },
     //提交表单
     submit() {
@@ -258,9 +263,12 @@ export default {
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`)
+      this.pagesize = val;
+      this.currentPage = 1
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
+      this.currentPage = val;
     },
     //修改日期undefined
     getSTime(val) {
@@ -276,7 +284,7 @@ export default {
 .tableAll {
   /* margin-left: 100px; */
   width: 100%;
-  height: 100vh;
+  height: 100%;
   /* border: red 1px solid; */
 }
 

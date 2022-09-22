@@ -30,6 +30,18 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
+    // proxy{
+    //   //配置代理
+    //   '/api': {
+    //     target: 'https://stage.bjxscy.com/center-api-adminppgame',//设置你调用的接口域名和端口号 别忘了加http
+    //     changeOrigin: true,//允许跨域
+    //     pathRewrite: {
+    //       '^/api': '' //这个是定义要访问的路径，名字随便写 
+    //     }
+    //   }
+    // },
+    
+    
     port: port,
     open: true,
     overlay: {

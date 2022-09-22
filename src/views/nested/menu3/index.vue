@@ -6,22 +6,9 @@
           <el-input v-model="form.id" placeholder="用户ID"></el-input>
         </el-form-item>
         <el-form-item label="装盘抽奖券">
-          <el-input v-model="form.raffleticket" placeholder="格式[10,20,30],对应关系[绿券,紫券,橙券]" style="width:290px">
+          <el-input v-model="form.tickets" placeholder="格式[10,20,30],对应关系[绿券,紫券,橙券]" style="width:290px">
           </el-input>
-
-          <!-- <el-select v-model="form.raffleticket">
-            <el-option label="10" value="10"></el-option>
-            <el-option label="20" value="20"></el-option>
-            <el-option label="30" value="30"></el-option>
-          </el-select> -->
         </el-form-item>
-        <!-- <el-form-item label="对应品级">
-          <el-select v-model="form.quality">
-            <el-option label="绿券" value="绿券"></el-option>
-            <el-option label="紫券" value="紫券"></el-option>
-            <el-option label="橙券" value="橙券"></el-option>
-          </el-select>
-        </el-form-item> -->
         <!-- 添加 -->
         <div style="float:right">
           <el-button type="primary" @click="add" style="margin-right:20px">重置</el-button>
@@ -35,7 +22,7 @@
             <el-input v-model="form.id" placeholder="用户ID" style="width:220px"></el-input>
           </el-form-item>
           <el-form-item label="装盘抽奖券">
-            <el-select v-model="form.raffleticket">
+            <el-select v-model="form.tickets">
               <el-option label="10" value="10"></el-option>
               <el-option label="20" value="20"></el-option>
               <el-option label="30" value="30"></el-option>
@@ -59,11 +46,11 @@
 
       <!-- 表单 -->
       <div class="tableMain">
-        <el-table :data="tableData" style="width: 100%" :cell-style="{ textAlign: 'center' }"
-          :header-cell-style="{textAlign: 'center'}">
+        <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%"
+          :cell-style="{ textAlign: 'center' }" :header-cell-style="{textAlign: 'center'}">
           <el-table-column prop="id" label="Uid" style="width:30%">
           </el-table-column>
-          <el-table-column prop="raffleticket" label="装盘抽奖券" style="width:33%">
+          <el-table-column prop="tickets" label="装盘抽奖券" style="width:33%">
           </el-table-column>
           <!-- <el-table-column prop="quality" label="对应品级" style="width:33%">
           </el-table-column> -->
@@ -78,7 +65,13 @@
           </el-table-column>
         </el-table>
       </div>
-
+      <!-- 分页 -->
+      <div class="block" style="margin-top:15px;">
+        <el-pagination align='center' @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="currentPage" :page-sizes="[6]" :page-size="pagesize"
+          layout="total, sizes, prev, pager, next, jumper" :total="tableData.length">
+        </el-pagination>
+      </div>
     </div>
     <!-- 子路由 -->
     <router-view />
@@ -91,20 +84,23 @@ export default {
       labelPosition: 'top',
       form: {
         id: '',
-        raffleticket: '',
+        tickets: '',
         // quality:''
       },
       tableData: [{
         id: '0',
-        raffleticket: '[100,100,100]',
+        tickets: '[100,100,100]',
         // quality: '绿券',
       }, {
         id: '1',
-        raffleticket: '[10,20,30]',
+        tickets: '[10,20,30]',
       }],
       zdydialog: false,
       loading: true,
       submitType: "",
+      currentPage: 1, //初始页
+      pagesize: 6, //    每页的数据,数字是几就显示几条
+      total: 1000
     }
   },
 
@@ -112,7 +108,7 @@ export default {
     add() {
       this.form = {
         id: '',
-        raffleticket: '',
+        tickets: '',
         quality: ''
       }
       this.zdydialog = false
@@ -152,12 +148,21 @@ export default {
         })
       })
     },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`)
+      this.pagesize = val;
+      this.currentPage = 1
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`)
+      this.currentPage = val;
+    },
   },
   //监听两个输入框的值
   watch: {
     form: {
       handler(newVal, oldVal) {
-        // this.form.quality = this.form.raffleticket;
+        // this.form.quality = this.form.tickets;
 
       },
       deep: true

@@ -12,6 +12,8 @@ import App from './App'
 import store from './store'
 import router from './router'
 
+import axios from 'axios'
+
 import '@/icons' // icon
 import '@/permission' // permission control
 
@@ -35,8 +37,13 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
+//全局挂载axios
+Vue.prototype.$axios = axios
+axios.defaults.baseURL='/test'
+
 new Vue({
   el: '#app',
+  axios,
   router,
   store,
   render: h => h(App)

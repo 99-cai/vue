@@ -1,149 +1,199 @@
-<!-- <template functional>
-  <div>
-    <el-alert :closable="false" title="menu 3-1" type="warning" />
-
-  </div>
-</template> -->
 <template>
-  <div class="container">
-   <div class="block">
-    <el-tree
-      :data="data"
-      node-key="id"
-      default-expand-all
-      @node-click="handleNodeClick"
-      :expand-on-click-node="false">
-      <span class="custom-tree-node" slot-scope="{ node, data }">
-        <span v-if="node.data.flag">{{ node.label }}</span>
-        <input  type="text" v-else v-model="value" @change='input(node)'>
-        <span class="el-btn">
-          <el-button
-           icon="el-icon-circle-plus-outline" 
-            circle
-            type="text"
-            size="mini"
-            @click="() => append(data)">
-          </el-button>
-          <el-button
-          type="text" 
-          icon="el-icon-delete" 
-          circle
-            size="mini"
-            @click="() => remove(node, data)">
-            
-          </el-button>
-          <el-button
-            icon="el-icon-edit" 
-            circle
-            type="text"
-            size="mini"
-            @click="() => edit(node,data)">
-          
-          </el-button>
-        </span>
-      </span>
-    </el-tree>
-  </div>
+  <div style="padding:30px;">
+    <div>
+      <el-form :inline="true" :model="form" class="demo-form-inline">
+        <el-form-item label="用户id" width="80px" prop="uid">
+          <el-input v-model="form.uid" placeholder="用户ID"></el-input>
+        </el-form-item>
+        <el-form-item label="道具id">
+          <el-input v-model="form.itemID" placeholder="道具id" style="width:290px"></el-input>
+        </el-form-item>
+        <el-form-item label="道具数量">
+          <el-input v-model="form.itemNum" placeholder="道具数量" style="width:290px"></el-input>
+        </el-form-item>
+        <!-- 添加 -->
+        <div style="float:right">
+          <el-button type="primary" @click="add" style="margin-right:20px">重置</el-button>
+          <el-button type="primary" @click="submit">添 加</el-button>
+        </div>
+      </el-form>
+      <!-- 添加弹框 -->
+      <el-dialog style="width: 1000px;height: 1000px;" title="添加道具" :visible.sync="zdydialog">
+        <el-form :model="form" :label-position="labelPosition">
+          <el-form-item label="用户id" prop="uid">
+            <el-input v-model="form.uid" placeholder="用户ID" style="width:220px"></el-input>
+          </el-form-item>
+          <el-form-item label="道具id">
+            <el-input v-model="form.itemID" placeholder="道具id" style="width:290px"></el-input>
+          </el-form-item>
+          <el-form-item label="道具数量">
+            <el-input v-model="form.itemNum" placeholder="道具数量" style="width:290px"></el-input>
+          </el-form-item>
+        </el-form>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submit">确 定</el-button>
+        </div>
+      </el-dialog>
+
+      <!-- 表单 -->
+      <div class="tableMain">
+        <el-table :data="tableData" style="width: 100%"
+          :cell-style="{ textAlign: 'center' }" :header-cell-style="{textAlign: 'center'}">
+          <el-table-column prop="uid" label="用户id" style="width:220px">
+            {{form.uid}}
+          </el-table-column>
+          <el-table-column prop="itemID" label="道具id" style="width:320px">
+            <template slot-scope="scope">
+              {{form.itemID}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="itemNum" label="道具数量" style="width:300px">
+            {{form.itemNum}}
+          </el-table-column>
+          <!-- 添加弹框 -->
+          <el-table-column label="操作">
+            <template slot-scope="scope2">
+              <el-button size="small" @click="handleEdit(scope2.$index, scope2.row)">编辑
+              </el-button>
+              <el-button size="small" type="danger" @click="handleDelete(scope2.$index, scope2.row)">删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <!-- 分页 -->
+      <!-- <div class="block" style="margin-top:15px;">
+        <el-pagination align='center' @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="currentPage" :page-sizes="[6]" :page-size="pagesize"
+          layout="total, sizes, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </div> -->
+    </div>
+    <!-- 子路由 -->
+    <router-view />
   </div>
 </template>
-
 <script>
-let id = 1000;
+// import Axios from 'axios'
+
+import axios from 'axios';
+
 export default {
-    name:'pmenu',
-      data() {
-        const data = [{
-          id: 1,
-          label: '',
-          flag: true,
-          children: [{
-          id: 4,
-          label: '道具管理',
-          flag: true,
-          children: [{
-            id: 9,
-            label: '金币',
-            flag: true,
-          }, {
-            id: 10,
-            label: '宝石',
-            flag: true,
-          }]
-          },{
-            id: 5,
-            label: '等级',
-            flag: true,
-            children: [{
-              id: 6,
-              label: '经验',
-              flag: true,
-            }]
-          }]
-        }];
-      return {
-        value:'',
-        dian:'dianjiyixia',
-        flag:true,
-        data: JSON.parse(JSON.stringify(data)),
-        // data: JSON.parse(JSON.stringify(data))
+  data() {
+    return {
+      labelPosition: 'top',
+      form: {
+        uid: '0',
+        itemID: 12,
+        itemNum: 2,
+      },
+      tableData: [],
+      submitType: "",
+      zdydialog: false,
+      loading: true,
+
+      // currentPage: 1, //初始页
+      // pagesize: 6, //    每页的数据,数字是几就显示几条
+      // total: 1000
+    }
+  },
+  created(){
+    this.init()
+  },
+  methods: {
+    init(){
+      let _this = this;
+      //类型转换
+      // let tableData = [];
+      //   for(let i in res.data.form.userInfo){
+      //     tableData.push(res.form[i]);
+      //   }
+      axios({
+                url: 'https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet',
+                async:false,
+                dataType:'json',
+                method: 'post',
+                data: {
+                  uid:this.form.uid,
+                  itemID:this.form.itemID,
+                  itemNum:this.form.itemNum
+                }
+            }).then(res => {
+              console.log(res)
+              // this.tableData = res.data
+              this.tableData.push(res.data)
+              // this.total.push(total)
+            })
+    },
+    add() {
+      this.form = {
+        uid: '',
+        itemID: '',
+        itemNum: ''
+      }
+      this.zdydialog = false
+      this.submitType = "add"
+    },
+    //添加
+    submit() {
+      if (this.submitType == "add") {
+        this.tableData.push(this.form)//向tableData中添加数据
+        this.zdydialog = false
+      } else {
+
       }
     },
-
-    methods: {
-       handleNodeClick(data) {
-        console.log(data);
-      },
-      append(data) {
-      //关键，给新增的数据也添加flag
-        const newChild = { id: id++, label: 'test', children: [] ,flag: false};
-        if (!data.children) {
-          this.$set(data, 'children', []);
-        }
-        // debugger
-        data.children.push(newChild);
-      },
-      remove(node, data) {
-        const parent = node.parent;
-        const children = parent.data.children || parent.data;
-        const index = children.findIndex(d => d.id === data.id);
-        children.splice(index, 1);
-      },
-      edit(node,data){
-        node.data.flag=false;
-        // node.data.label=this.nei;
-        // console.log(node);
-        
-      },
-    input(node){
-      // console.log(node);
-      node.data.flag=true;
-      node.data.label=this.value;
-      this.value=null;
+    //弹框不显示
+    cancel() {
+      this.zdydialog = false
+    },
+    //编辑
+    handleEdit(index, row) {
+      this.form = row     //将该行对象数据直接赋给form
+      this.zdydialog = false //自定义对话框展示
+      this.submitType = "update";
+    },
+    //删除
+    handleDelete(index, row) {
+      this.$confirm('此操作将删除改操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.tableData.splice(index, 1)
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`)
+      this.pagesize = val;
+      this.currentPage = 1
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`)
+      this.currentPage = val;
     },
 
-    }
-  };
+  },
+  //请求数据
+  // created (){
+  //   const _this = this
+  //   axios.get("https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet").then(function (req){
+  //     console.log(req);
+  //   }).catch(error =>{
+  //     console.log(error);
+  //   })
+  // }
+
+}
 </script>
-
-<style>
-.container {
-  margin-left: 80px;
-  width: 80%;
-   flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 14px;
-    padding-right: 8px;
-}
-.el-btn{
-  margin-left: 20px;
-}
-.el-button--mini.is-circle{
-  padding: 2px;
-}
-.el-button+.el-button {
-    margin-left: 0px;
-}
-</style>
-
