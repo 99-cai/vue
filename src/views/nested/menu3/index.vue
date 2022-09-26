@@ -1,7 +1,7 @@
 <template>
   <div style="padding:30px;">
     <div v-show="$route.meta.showfater">
-      <el-form :inline="true" :model="form" class="demo-form-inline">
+      <el-form :inline="true" :model="form" class="demo-form-inline" action="https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet">
         <el-form-item label="Uid" width="80px" prop="id">
           <el-input v-model="form.uid" placeholder="用户ID"></el-input>
         </el-form-item>
@@ -18,19 +18,19 @@
       </el-form>
       <!-- 添加弹框 -->
       <el-dialog style="width: 1000px;height: 1000px;" title="添加道具" :visible.sync="zdydialog">
-        <el-form :model="form" :label-position="labelPosition">
+        <el-form :model="exit" :label-position="labelPosition" action="https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet">
           <el-form-item label="Uid" prop="uid">
-            <el-input v-model="form.uid" placeholder="用户ID" style="width:220px"></el-input>
+            <el-input v-model="exit.uid" placeholder="用户ID" style="width:220px"></el-input>
           </el-form-item>
           <el-form-item label="装盘抽奖券">
-            <el-select v-model="form.ticket">
+            <el-select v-model="exit.ticket">
               <el-option label="10" value="10"></el-option>
               <el-option label="20" value="20"></el-option>
               <el-option label="30" value="30"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="对应品级">
-            <el-select v-model="form.quality">
+            <el-select v-model="exit.quality">
               <el-option label="绿券" value="绿券"></el-option>
               <el-option label="紫券" value="紫券"></el-option>
               <el-option label="橙券" value="橙券"></el-option>

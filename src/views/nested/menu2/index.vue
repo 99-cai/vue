@@ -1,7 +1,7 @@
 <template>
   <div style="padding:30px;">
     <div>
-      <el-form :inline="true" :model="form" class="demo-form-inline">
+      <el-form :inline="true" :model="form" class="demo-form-inline" action="https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet">
         <el-form-item label="Uid" width="80px" prop="uid">
           <el-input v-model="form.uid" placeholder="用户ID"></el-input>
         </el-form-item>
@@ -19,7 +19,7 @@
       </el-form>
       <!-- 添加弹框 -->
       <el-dialog style="width: 1000px;height: 1000px;" title="添加道具" :visible.sync="zdydialog">
-        <el-form :model="exit" :label-position="labelPosition">
+        <el-form :model="exit" :label-position="labelPosition" action="https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet">
           <el-form-item label="Uid" prop="uid">
             <el-input v-model="exit.uid" placeholder="用户ID" style="width:220px"></el-input>
           </el-form-item>
@@ -132,7 +132,7 @@ export default {
         //this.tableData = JSON.parse(JSON.stringify(this.tableData))
         this.tableData.push(res.data.data.user)
         // this.tableData = res.data 
-         console.log(res.data);
+         console.log(res.data.data);
         //this.total = res.
       })
     },

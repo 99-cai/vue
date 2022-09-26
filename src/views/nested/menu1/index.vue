@@ -230,6 +230,7 @@ export default {
       }).then(res => {
         console.log(res)
         // this.tableData = JSON.parse(JSON.stringify(this.tableData))
+        console.log(res.data.data);
         this.tableData.push(res.data.data.user)
       })
     },
