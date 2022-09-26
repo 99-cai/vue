@@ -162,15 +162,15 @@ export default {
     //编辑
     handleEdit(index, row) {
       //this.form = row     //将该行对象数据直接赋给form
-      this.zdydialog = true //自定义对话框展示
+      this.zdydialog = false //自定义对话框展示
       this.submitType = "update";
       this.exit.uid = row.uid
-      this.exit.plant = row.plantTimes
-      this.exit.seed = row.uid
+      this.exit.plant = row.plant
+      this.exit.seed = row.seed
     },
     //删除
     handleDelete(index, row) {
-      this.$confirm('此操作将删除改操作, 是否继续?', '提示', {
+      this.$confirm('此操作将删除该操作, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

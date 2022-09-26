@@ -6,7 +6,7 @@
           <el-input v-model="form.uid" placeholder="用户ID"></el-input>
         </el-form-item>
         <el-form-item label="装盘抽奖券" prop="ticket">
-          <el-input v-model="form.ticket" placeholder="格式[10,20,30],对应关系[绿券,紫券,橙券]" style="width:290px">
+          <el-input v-model="form.tickets" placeholder="格式[10,20,30],对应关系[绿券,紫券,橙券]" style="width:290px">
           </el-input>
         </el-form-item>
         <!-- 添加 -->
@@ -23,7 +23,7 @@
             <el-input v-model="exit.uid" placeholder="用户ID" style="width:220px"></el-input>
           </el-form-item>
           <el-form-item label="装盘抽奖券">
-            <el-select v-model="exit.ticket">
+            <el-select v-model="exit.tickets">
               <el-option label="10" value="10"></el-option>
               <el-option label="20" value="20"></el-option>
               <el-option label="30" value="30"></el-option>
@@ -51,7 +51,7 @@
           :cell-style="{ textAlign: 'center' }" :header-cell-style="{textAlign: 'center'}">
           <el-table-column prop="uid" label="Uid" style="width:30%">
           </el-table-column>
-          <el-table-column prop="ticket" label="装盘抽奖券" style="width:33%">
+          <el-table-column prop="tickets" label="装盘抽奖券" style="width:33%">
           </el-table-column>
           <!-- <el-table-column prop="quality" label="对应品级" style="width:33%">
           </el-table-column> -->
@@ -87,12 +87,12 @@ export default {
       labelPosition: 'top',
       form: {
         uid: 20436,
-        ticket: '',
+        tickets: '',
         // quality:''
       },
       exit:{
         uid:'',
-        ticket:''
+        tickets:''
       },
       tableData: [],
       zdydialog: false,
@@ -114,7 +114,7 @@ export default {
       let _this = this;
       var obj = {
         uid: this.form.uid,
-        ticket: this.form.ticket
+        tickets: this.form.tickets
       }
       this.tableData = []
       axios({
@@ -133,8 +133,7 @@ export default {
     add() {
       this.form = {
         id: '',
-        ticket: '',
-        quality: ''
+        tickets: '',
       }
       this.zdydialog = false
       this.submitType = "add"
