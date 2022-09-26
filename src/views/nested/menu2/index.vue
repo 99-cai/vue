@@ -13,21 +13,21 @@
         </el-form-item>
         <!-- 添加 -->
         <div style="float:right">
-          <el-button type="primary" @click="add" style="margin-right:20px">重置</el-button>
+          <el-button type="primary" @click="search" style="margin-right:20px">查询</el-button>
           <el-button type="primary" @click="submit">添 加</el-button>
         </div>
       </el-form>
       <!-- 添加弹框 -->
       <el-dialog style="width: 1000px;height: 1000px;" title="添加道具" :visible.sync="zdydialog">
-        <el-form :model="form" :label-position="labelPosition">
+        <el-form :model="exit" :label-position="labelPosition">
           <el-form-item label="Uid" prop="uid">
-            <el-input v-model="form.uid" placeholder="用户ID" style="width:220px"></el-input>
+            <el-input v-model="exit.uid" placeholder="用户ID" style="width:220px"></el-input>
           </el-form-item>
           <el-form-item label="作物成熟时间">
-            <el-input v-model="form.plant" placeholder="(单位:  秒,xx秒后成熟)" style="width:290px"></el-input>
+            <el-input v-model="exit.plant" placeholder="(单位:  秒,xx秒后成熟)" style="width:290px"></el-input>
           </el-form-item>
           <el-form-item label="解锁新的种子">
-            <el-input v-model="form.seed" placeholder="种子id" style="width:290px"></el-input>
+            <el-input v-model="exit.seed" placeholder="种子id" style="width:290px"></el-input>
           </el-form-item>
         </el-form>
 
@@ -46,11 +46,13 @@
           </el-table-column>
           <el-table-column prop="plant" label="作物成熟时间" style="width:320px">
             <template slot-scope="scope">
-              {{form.plant}}秒后成熟
+              {{scope.row.plantTimes}}秒后成熟
             </template>
           </el-table-column>
           <el-table-column prop="seed" label="解锁种子ID" style="width:300px">
-            <!-- {{form.seed}} -->
+            <template slot-scope="scope">
+              {{scope.row.seed}}
+            </template>
           </el-table-column>
           <!-- 添加弹框 -->
           <el-table-column label="操作">
@@ -85,9 +87,14 @@ export default {
     return {
       labelPosition: 'top',
       form: {
-        uid: '0',
-        plant: 12,
-        seed: 2,
+        uid: 20441,
+        plant: '',
+        seed: '',
+      },
+      exit: {
+        uid: '',
+        plant: '',
+        seed: '',
       },
       tableData: [],
       submitType: "",
@@ -102,24 +109,30 @@ export default {
     this.init()
   },
   methods: {
+    //查询
+    search(){
+      this.init()
+    },
     init() {
       let _this = this;
-      axios({
-        url: 'https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet',
-        method: 'post',
-        data: {
+      var obj= {
           uid: this.form.uid,
           plant: this.form.plant,
           seed: this.form.seed
-        },
-        dataType: "json"
+      }
+      this.tableData = []
+      axios({
+        url: 'https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet',
+        method: 'post',
+        data: JSON.stringify(obj),
+        headers: {"Content-type": "application/json"}
+        //dataType: "json"
       }).then(res => {
         console.log(res)
-        this.tableData = JSON.parse(JSON.stringify(this.tableData))
-        this.tableData.push(res.data)
+        //this.tableData = JSON.parse(JSON.stringify(this.tableData))
+        this.tableData.push(res.data.data.user)
         // this.tableData = res.data 
-        // console.log(res.data);
-        // console.log(JSON.parse(JSON.stringify(this.tableData)));
+         console.log(res.data);
         //this.total = res.
       })
     },
@@ -148,9 +161,12 @@ export default {
     },
     //编辑
     handleEdit(index, row) {
-      this.form = row     //将该行对象数据直接赋给form
-      this.zdydialog = false //自定义对话框展示
+      //this.form = row     //将该行对象数据直接赋给form
+      this.zdydialog = true //自定义对话框展示
       this.submitType = "update";
+      this.exit.uid = row.uid
+      this.exit.plant = row.plantTimes
+      this.exit.seed = row.uid
     },
     //删除
     handleDelete(index, row) {

@@ -3,26 +3,27 @@
     <div v-show="$route.meta.showfater">
       <el-form :inline="true" :model="form" class="demo-form-inline">
         <el-form-item label="Uid" width="80px" prop="id">
-          <el-input v-model="form.id" placeholder="用户ID"></el-input>
+          <el-input v-model="form.uid" placeholder="用户ID"></el-input>
         </el-form-item>
-        <el-form-item label="装盘抽奖券">
-          <el-input v-model="form.tickets" placeholder="格式[10,20,30],对应关系[绿券,紫券,橙券]" style="width:290px">
+        <el-form-item label="装盘抽奖券" prop="ticket">
+          <el-input v-model="form.ticket" placeholder="格式[10,20,30],对应关系[绿券,紫券,橙券]" style="width:290px">
           </el-input>
         </el-form-item>
         <!-- 添加 -->
         <div style="float:right">
           <el-button type="primary" @click="add" style="margin-right:20px">重置</el-button>
+          <el-button type="primary" @click="search" style="margin-right:20px">查询</el-button>
           <el-button type="primary" @click="submit">添 加</el-button>
         </div>
       </el-form>
       <!-- 添加弹框 -->
       <el-dialog style="width: 1000px;height: 1000px;" title="添加道具" :visible.sync="zdydialog">
         <el-form :model="form" :label-position="labelPosition">
-          <el-form-item label="Uid" prop="id">
-            <el-input v-model="form.id" placeholder="用户ID" style="width:220px"></el-input>
+          <el-form-item label="Uid" prop="uid">
+            <el-input v-model="form.uid" placeholder="用户ID" style="width:220px"></el-input>
           </el-form-item>
           <el-form-item label="装盘抽奖券">
-            <el-select v-model="form.tickets">
+            <el-select v-model="form.ticket">
               <el-option label="10" value="10"></el-option>
               <el-option label="20" value="20"></el-option>
               <el-option label="30" value="30"></el-option>
@@ -48,9 +49,9 @@
       <div class="tableMain">
         <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%"
           :cell-style="{ textAlign: 'center' }" :header-cell-style="{textAlign: 'center'}">
-          <el-table-column prop="id" label="Uid" style="width:30%">
+          <el-table-column prop="uid" label="Uid" style="width:30%">
           </el-table-column>
-          <el-table-column prop="tickets" label="装盘抽奖券" style="width:33%">
+          <el-table-column prop="ticket" label="装盘抽奖券" style="width:33%">
           </el-table-column>
           <!-- <el-table-column prop="quality" label="对应品级" style="width:33%">
           </el-table-column> -->
@@ -78,23 +79,22 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
       labelPosition: 'top',
       form: {
-        id: '',
-        tickets: '',
+        uid: 20436,
+        ticket: '',
         // quality:''
       },
-      tableData: [{
-        id: '0',
-        tickets: '[100,100,100]',
-        // quality: '绿券',
-      }, {
-        id: '1',
-        tickets: '[10,20,30]',
-      }],
+      exit:{
+        uid:'',
+        ticket:''
+      },
+      tableData: [],
       zdydialog: false,
       loading: true,
       submitType: "",
@@ -103,12 +103,37 @@ export default {
       total: 1000
     }
   },
-
+  created() {
+    this.init()
+  },
   methods: {
+    search() {
+      this.init()
+    },
+    init() {
+      let _this = this;
+      var obj = {
+        uid: this.form.uid,
+        ticket: this.form.ticket
+      }
+      this.tableData = []
+      axios({
+        url: 'https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet',
+        method: 'post',
+        data: JSON.stringify(obj),
+        headers: { "Content-type": "application/json" }
+
+      }).then(res => {
+        console.log(res)
+        // this.tableData = res.data
+        this.tableData.push(res.data.data.user)
+        // this.total.push(total)
+      })
+    },
     add() {
       this.form = {
         id: '',
-        tickets: '',
+        ticket: '',
         quality: ''
       }
       this.zdydialog = false

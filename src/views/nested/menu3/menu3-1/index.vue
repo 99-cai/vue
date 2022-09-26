@@ -14,6 +14,7 @@
         <!-- 添加 -->
         <div style="float:right">
           <el-button type="primary" @click="add" style="margin-right:20px">重置</el-button>
+          <el-button type="primary" @click="search" style="margin-right:20px">查询</el-button>
           <el-button type="primary" @click="submit">添 加</el-button>
         </div>
       </el-form>
@@ -39,18 +40,13 @@
 
       <!-- 表单 -->
       <div class="tableMain">
-        <el-table :data="tableData" style="width: 100%"
-          :cell-style="{ textAlign: 'center' }" :header-cell-style="{textAlign: 'center'}">
+        <el-table :data="tableData" style="width: 100%" :cell-style="{ textAlign: 'center' }"
+          :header-cell-style="{textAlign: 'center'}">
           <el-table-column prop="uid" label="用户id" style="width:220px">
-            {{form.uid}}
           </el-table-column>
           <el-table-column prop="itemID" label="道具id" style="width:320px">
-            <template slot-scope="scope">
-              {{form.itemID}}
-            </template>
           </el-table-column>
           <el-table-column prop="itemNum" label="道具数量" style="width:300px">
-            {{form.itemNum}}
           </el-table-column>
           <!-- 添加弹框 -->
           <el-table-column label="操作">
@@ -76,7 +72,6 @@
   </div>
 </template>
 <script>
-// import Axios from 'axios'
 
 import axios from 'axios';
 
@@ -85,9 +80,14 @@ export default {
     return {
       labelPosition: 'top',
       form: {
-        uid: '0',
-        itemID: 12,
-        itemNum: 2,
+        uid: 20433,
+        itemID: "",
+        itemNum: "",
+      },
+      exit:{
+        uid:'',
+        itemID:'',
+        itemNum:''
       },
       tableData: [],
       submitType: "",
@@ -99,39 +99,39 @@ export default {
       // total: 1000
     }
   },
-  created(){
+  created() {
     this.init()
   },
   methods: {
-    init(){
+        //查询
+        search() {
+      this.init()
+    },
+    init() {
       let _this = this;
-      //类型转换
-      // let tableData = [];
-      //   for(let i in res.data.form.userInfo){
-      //     tableData.push(res.form[i]);
-      //   }
+      var obj= {
+          uid: this.form.uid,
+          itemID: this.form.itemID,
+          itemNum: this.form.itemNum
+      }
+      this.tableData = []
       axios({
-                url: 'https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet',
-                async:false,
-                dataType:'json',
-                method: 'post',
-                data: {
-                  uid:this.form.uid,
-                  itemID:this.form.itemID,
-                  itemNum:this.form.itemNum
-                }
-            }).then(res => {
-              console.log(res)
-              // this.tableData = res.data
-              this.tableData.push(res.data)
-              // this.total.push(total)
-            })
+        url: 'https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet',
+        method: 'post',
+        data: JSON.stringify(obj),
+        headers: { "Content-type": "application/json" }
+      }).then(res => {
+        console.log(res)
+        // this.tableData = res.data
+        this.tableData.push(res.data.data.user)
+        // this.total.push(total)
+      })
     },
     add() {
       this.form = {
         uid: '',
         itemID: '',
-        itemNum: ''
+        itemNum: '',
       }
       this.zdydialog = false
       this.submitType = "add"
@@ -151,9 +151,12 @@ export default {
     },
     //编辑
     handleEdit(index, row) {
-      this.form = row     //将该行对象数据直接赋给form
+      // this.form = row     //将该行对象数据直接赋给form
       this.zdydialog = false //自定义对话框展示
       this.submitType = "update";
+      this.exit.uid = row.uid
+      this.exit.itemID = row.itemID
+      this.exit.itemNum = row.itemNum
     },
     //删除
     handleDelete(index, row) {
@@ -185,15 +188,5 @@ export default {
     },
 
   },
-  //请求数据
-  // created (){
-  //   const _this = this
-  //   axios.get("https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet").then(function (req){
-  //     console.log(req);
-  //   }).catch(error =>{
-  //     console.log(error);
-  //   })
-  // }
-
 }
 </script>

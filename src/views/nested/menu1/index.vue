@@ -16,10 +16,17 @@
         <el-form-item label="积分" prop="score">
           <el-input v-model="form.score" style="width:220px"></el-input>
         </el-form-item>
-        <el-form-item label="日期" width="80px">
-          <el-date-picker v-model="form.date" @change="getSTime" value-format="yyyy-MM-dd" type="date"
-            placeholder="选择日期">
-          </el-date-picker>
+        <el-form-item label="等级" prop="level">
+          <el-input v-model="form.level" style="width:220px"></el-input>
+        </el-form-item>
+        <el-form-item label="等级经验" prop="exp">
+          <el-input v-model="form.exp" style="width:220px"></el-input>
+        </el-form-item>
+        <el-form-item label="宠物等级" prop="petLV">
+          <el-input v-model="form.petLV" style="width:220px"></el-input>
+        </el-form-item>
+        <el-form-item label="现金红包" prop="money">
+          <el-input v-model="form.money" style="width:220px"></el-input>
         </el-form-item>
         <el-form-item label="装备" prop="equipment">
           <el-input v-model="form.equipment" style="width:220px"></el-input>
@@ -37,21 +44,9 @@
             <el-option label="高" value="高"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="等级" prop="level">
-          <el-input v-model="form.level" style="width:220px"></el-input>
-        </el-form-item>
-        <el-form-item label="等级经验" prop="exp">
-          <el-input v-model="form.exp" style="width:220px"></el-input>
-        </el-form-item>
-        <el-form-item label="宠物等级" prop="petLV">
-          <el-input v-model="form.petLV" style="width:220px"></el-input>
-        </el-form-item>
-        <el-form-item label="现金红包" prop="money">
-          <el-input v-model="form.money" style="width:220px"></el-input>
-        </el-form-item>
-
         <div style="float:right">
           <el-button type="primary" @click="add" style="margin-right:10px">重 置</el-button>
+          <el-button type="primary" @click="search" style="margin-right:20px">查询</el-button>
           <el-button type="primary" @click="submit">添 加</el-button>
         </div>
       </el-form>
@@ -70,6 +65,19 @@
           <el-form-item label="积分" prop="score">
             <el-input v-model="form.score" style="width:220px"></el-input>
           </el-form-item>
+
+          <el-form-item label="等级" prop="level">
+            <el-input v-model="form.level" style="width:220px"></el-input>
+          </el-form-item>
+          <el-form-item label="等级经验" prop="exp">
+            <el-input v-model="form.exp" style="width:220px"></el-input>
+          </el-form-item>
+          <el-form-item label="宠物等级" prop="petLv">
+            <el-input v-model="form.petLv" style="width:220px"></el-input>
+          </el-form-item>
+          <el-form-item label="现金红包" prop="money">
+            <el-input v-model="form.money" style="width:220px"></el-input>
+          </el-form-item>
           <el-form-item label="装备" prop="equipment">
             <el-input v-model="form.equipment" style="width:220px"></el-input>
           </el-form-item>
@@ -85,23 +93,6 @@
               <el-option label="中" value="中"></el-option>
               <el-option label="高" value="高"></el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="等级" prop="level">
-            <el-input v-model="form.level" style="width:220px"></el-input>
-          </el-form-item>
-          <el-form-item label="等级经验" prop="exp">
-            <el-input v-model="form.exp" style="width:220px"></el-input>
-          </el-form-item>
-          <el-form-item label="宠物等级" prop="petLV">
-            <el-input v-model="form.petLV" style="width:220px"></el-input>
-          </el-form-item>
-          <el-form-item label="现金红包" prop="money">
-            <el-input v-model="form.money" style="width:220px"></el-input>
-          </el-form-item>
-          <el-form-item label="日期" width="80px">
-            <el-date-picker v-model="form.date" @change="getSTime" value-format="yyyy-MM-dd" type="date"
-              placeholder="选择日期">
-            </el-date-picker>
           </el-form-item>
         </el-form>
 
@@ -121,6 +112,14 @@
           </el-table-column>
           <el-table-column prop="score" label="积分" width="90">
           </el-table-column>
+          <el-table-column prop="level" label="等级" width="90">
+          </el-table-column>
+          <el-table-column prop="exp" label="等级经验" width="90">
+          </el-table-column>
+          <el-table-column prop="petLv" label="宠物等级" width="90">
+          </el-table-column>
+          <el-table-column prop="money" label="现金红包" width="90">
+          </el-table-column>
           <el-table-column prop="equipment" label="装备" width="90">
           </el-table-column>
           <el-table-column prop="equipLv" label="装备等级" width="90">
@@ -128,16 +127,6 @@
           <el-table-column prop="equipQuality" label="装备品质" width="90">
           </el-table-column>
           <el-table-column prop="starLV" label="装备星级" width="90">
-          </el-table-column>
-          <el-table-column prop="level" label="等级" width="90">
-          </el-table-column>
-          <el-table-column prop="exp" label="等级经验" width="90">
-          </el-table-column>
-          <el-table-column prop="petLV" label="宠物等级" width="90">
-          </el-table-column>
-          <el-table-column prop="money" label="现金红包" width="90">
-          </el-table-column>
-          <el-table-column prop="date" label="日期" width="100">
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -164,38 +153,86 @@
 </template>
 
 <script type="text/javascript">
-import { reformat } from './reformatDate'
+import axios from 'axios';
 
 export default {
   name: "eltable",
   data() {
     return {
-      tableData: [{
-        uid: '0',
-        coin: '99999',
-        diamond: '100',
-        score: '30',
-        equipment: '武器',
-        equipLv: '100',
-        starLV: '3',
-        equipQuality: '高',
-        level: '100',
-        exp: '0',
-        petLV: '50',
-        money: '0',
-        date: '2022-9-19'
-      }
-      ],
       zdydialog: false,
       formLabelWidth: '80px',
-      form: {},
+      form: {
+        uid: 20430,
+        coin: '',
+        diamond: '',
+        score: '',
+        equipment: '',
+        equipLv: '',
+        starLV: '',
+        equipQuality: '',
+        level: '',
+        exp: '',
+        petLv: '',
+        money: '',
+      },
+      exit: {
+        uid: '',
+        coin: '',
+        diamond: '',
+        score: '',
+        equipment: '',
+        equipLv: '',
+        starLV: '',
+        equipQuality: '',
+        level: '',
+        exp: '',
+        petLv: '',
+        money: '',
+      },
+      tableData: [],
       submitType: "",
+      
       currentPage: 1, //初始页
       pagesize: 4, //    每页的数据,数字是几就显示几条
       total: 1000
     }
   },
+  created() {
+    this.init()
+  },
   methods: {
+    //查询
+    search() {
+      this.init()
+    },
+    init() {
+      let _this = this;
+      var obj = {
+        uid: this.form.uid,
+        coin: this.form.coin,
+        diamond: this.form.diamond,
+        score: this.form.score,
+        equipment: this.form.equipment,
+        equipLv: this.form.equipLv,
+        starLV: this.form.starLV,
+        level: this.form.level,
+        exp: this.form.exp,
+        petLv: this.form.petLv,
+        money: this.form.money,
+
+      }
+      this.tableData = []
+      axios({
+        url: 'https://stage.bjxscy.com/center-api-adminppgame/admin/userInfoSet',
+        method: 'post',
+        data: JSON.stringify(obj),
+        headers: { "Content-type": "application/json" }
+      }).then(res => {
+        console.log(res)
+        // this.tableData = JSON.parse(JSON.stringify(this.tableData))
+        this.tableData.push(res.data.data.user)
+      })
+    },
     add() {
       this.form = {
         uid: '',
@@ -206,28 +243,22 @@ export default {
         equipment: '',
         equipLv: '',
         starLV: '',
-        equipLv: '',
+        equipQuality: '',
         //人物
         level: '',
         exp: '',
-        petLV: '',
+        petLv: '',
         money: '',
-        date: ''
       }
       this.submitType = "add";
       this.zdydialog = false;
     },
     //提交表单
     submit() {
-      //alert(this.form.date)
-      // var ss = reformat(this.form.date)
-      // alert(ss)
       this.zdydialog = false
 
       if (this.submitType == "add") {
-        this.form.date = reformat(this.form.date);//日期类型转换
         this.tableData.push(this.form)//向tableDate中添加
-        // this.form = ''
       } else {
 
       }
@@ -269,11 +300,6 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
       this.currentPage = val;
-    },
-    //修改日期undefined
-    getSTime(val) {
-      this.editForm.date = val;
-      console.log(val);
     },
   },
 }
