@@ -104,30 +104,8 @@ export const constantRoutes = [
         path: 'menu1',
         component: () => import('@/views/nested/menu1/index'), // Parent router-view
         name: 'Menu1',
-        meta: { title: '人物信息' },
+        meta: { title: '添加道具' },
       },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: '种子信息' }
-      },
-      {
-        path: 'menu3',
-        component: () => import('@/views/nested/menu3/index'),
-        name: 'Menu3',
-        meta: { title: '道具添加',showfater: true },
-        alwaysShow : true,
-        children: [
-          {
-            path: 'menu3-1',
-            component: () => import('@/views/nested/menu3/menu3-1/index'),
-            name: 'Menu3-1',
-            meta: { title: '其他道具' ,showfater: false},
-           
-          },
-        ],
-      }
     ]
   },
 
