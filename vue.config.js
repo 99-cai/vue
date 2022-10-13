@@ -34,7 +34,7 @@ module.exports = {
   lintOnSave: false,
   productionSourceMap: false,
   devServer: {
-    proxy{
+    proxy:{
       //配置代理
       '/api': {
         target: 'https://stage.bjxscy.com/center-api-adminppgame',//设置你调用的接口域名和端口号 别忘了加http
