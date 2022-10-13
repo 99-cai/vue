@@ -7,15 +7,19 @@
     "dev": "vue-cli-service serve",
     "build:prod": "vue-cli-service build",
     "build:stage": "vue-cli-service build --mode staging",
+    "build:development": "vue-cli-service build --mode development",
     "preview": "node build/index.js --preview",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
     "lint": "eslint --ext .js,.vue src",
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
-    "test:ci": "npm run lint && npm run test:unit"
+    "test:ci": "npm run lint && npm run test:unit",
+    "stage": "npm run stage:sync-server",
+    "stage:sync-server": "cd ../ && rsync -avcrzl --delete-after web-admin-oversea1 --exclude ./node_modules --exclude .DS_Store --exclude .vscode -e 'ssh' node@120.53.242.174:/data/work/client-web/"
   },
   "dependencies": {
     "axios": "^0.18.1",
     "core-js": "3.6.5",
+    "e-icon-picker": "^1.1.7",
     "element-ui": "2.13.2",
     "js-cookie": "2.2.0",
     "normalize.css": "7.0.0",

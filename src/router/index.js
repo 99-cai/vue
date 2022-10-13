@@ -36,13 +36,6 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
-
   {
     path: '/',
     component: Layout,
@@ -54,78 +47,48 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
-
   {
-    path: '/example',
+    path: '/AddProps',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    redirect: '/AddProps',
+    meta: {title: '测试数据修改'},
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: '测试数据修改',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
+        path: 'AddProps/index',
+        component: () => import('@/views/AddProps/index'), // Parent router-view
         meta: { title: '添加道具' },
       },
     ]
   },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
 ]
+
+// export const asyncRoutes = [
+//   {
+//     path: "/system",
+//     component: Layout,
+//     name: "system",
+//     meta: { title: "系统管理", icon: "el-icon-user-solid", roles: ['test','admin'] },
+//     children: [
+//       {
+//         path: "menu",
+//         component: () => import("@/views/system/menu/index"),
+//         meta: { title: "菜单列表", roles: ['test','admin'] }
+//       },
+//       {
+//         path: "user",
+//         component: () => import("@/views/system/user/index"),
+//         meta: { title: "用户管理", roles: ['test','admin'] }
+//       },
+//     ]
+//   }, 
+
+//     // 404 page must be placed at the end !!!
+//     { path: '*', redirect: '/404', hidden: true }
+// ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
+  mode:'hash',
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })

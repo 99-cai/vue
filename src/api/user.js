@@ -2,7 +2,8 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/vue-admin-template/user/login',
+    url: '/user/login',
+    // url: '/admin/api/login',
     method: 'post',
     data
   })
@@ -10,9 +11,18 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/vue-admin-template/user/info',
+    url: '/user',
+    // url: '/admin/api/boss/detail',
     method: 'get',
-    params: { token }
+
+  })
+}
+//  获取路由表接口
+export function getRouter() {
+  return request({
+    url: '/user/getRouter',
+  //   url: '/aoaoe/api/getMoveRouter',
+    method: 'get',
   })
 }
 

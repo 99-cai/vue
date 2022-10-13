@@ -6,6 +6,8 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
+
+
 const name = defaultSettings.title || 'vue Admin Template' // page title
 
 // If your port is set to 80,
@@ -24,22 +26,25 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
+
+  parallel: false,
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  lintOnSave: false,
   productionSourceMap: false,
   devServer: {
-    // proxy{
-    //   //配置代理
-    //   '/api': {
-    //     target: 'https://stage.bjxscy.com/center-api-adminppgame',//设置你调用的接口域名和端口号 别忘了加http
-    //     changeOrigin: true,//允许跨域
-    //     pathRewrite: {
-    //       '^/api': '' //这个是定义要访问的路径，名字随便写 
-    //     }
-    //   }
-    // },
+    proxy{
+      //配置代理
+      '/api': {
+        target: 'https://stage.bjxscy.com/center-api-adminppgame',//设置你调用的接口域名和端口号 别忘了加http
+        // target: 'https://demo.it98k.cn',
+        changeOrigin: true,//允许跨域
+        pathRewrite: {
+          '^/api': '/' //这个是定义要访问的路径，名字随便写 
+        }
+      }
+    },
     host: 'localhost',
     
     port: port,
@@ -48,7 +53,7 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    before: require('./mock/mock-server.js')
+    // before: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
