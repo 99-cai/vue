@@ -10,7 +10,7 @@
           <el-input v-model="uid" placeholder="用户ID"></el-input>
         </el-form-item>
         <el-form-item label="属性">
-          <el-select v-model="value1" placeholder="请选择">
+          <el-select v-model="value1" placeholder="请选择hhhh">
             <el-option
               v-for="item in options"
               :key="item.value"
