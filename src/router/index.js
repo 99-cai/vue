@@ -47,19 +47,19 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
-  {
-    path: '/AddProps',
-    component: Layout,
-    redirect: '/AddProps',
-    meta: {title: '测试数据修改'},
-    children: [
-      {
-        path: 'AddProps/index',
-        component: () => import('@/views/AddProps/index'), // Parent router-view
-        meta: { title: '添加道具' },
-      },
-    ]
-  },
+  // {
+  //   path: '/addProps',
+  //   component: Layout,
+  //   redirect: '/addProps',
+  //   meta: {title: '测试数据修改'},
+  //   children: [
+  //     {
+  //       path: 'addProps/index',
+  //       component: () => import('@/views/addProps/index'), // Parent router-view
+  //       meta: { title: '添加道具' },
+  //     },
+  //   ]
+  // },
 ]
 
 // export const asyncRoutes = [

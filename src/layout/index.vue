@@ -20,8 +20,8 @@ export default {
   components: {
     Navbar,
     Sidebar,
-    AppMain
-  },
+    AppMain,
+},
   mixins: [ResizeMixin],
   computed: {
     sidebar() {

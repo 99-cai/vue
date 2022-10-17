@@ -92,7 +92,7 @@ function filterAsyncRouter(asyncRouterMap) {
         route.component = Layout
       } else {
         try {
-          // console.log( _import(route.component));
+          // console.log( _import(route.component));v
           route.component = _import(route.component) // 导入组件
         } catch (error) {
           console.log(error);

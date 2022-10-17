@@ -88,7 +88,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      originTitle: ['uid', '金币', '宝石', '积分', '等级', '等级经验', '宠物等级', '抽奖券', '现金红包'],
+      originTitle: ['uid','手机号', '金币', '宝石', '积分', '等级', '等级经验', '宠物等级', '抽奖券', '现金红包'],
       labelPosition: "top",
       uid: "",
       form: {},
@@ -166,6 +166,7 @@ export default {
       tickets: [],
       tableData: [],
       tableDatas: [],
+      phone:0
     };
   },
   created() { },
@@ -204,7 +205,7 @@ export default {
         let matrixData = this.tableData.map((row) => {
           let arr = []
           if (this.tickets) {
-            arr[7] = this.tickets
+            arr[8] = this.tickets
           }
           for (let key in row) {
             // if(key=='uid'||key=='coin'||key=='diamond'||key=='score'||key=='level'||key=='exp'||key=='petLv'||key=='money'){
@@ -214,19 +215,21 @@ export default {
             if (key == 'uid') {
               arr[0] = row[key]
             } else if (key == 'coin') {
-              arr[1] = row[key]
-            } else if (key == 'diamond') {
               arr[2] = row[key]
-            } else if (key == 'score') {
+            } else if (key == 'diamond') {
               arr[3] = row[key]
-            } else if (key == 'level') {
+            } else if (key == 'score') {
               arr[4] = row[key]
-            } else if (key == 'exp') {
+            } else if (key == 'level') {
               arr[5] = row[key]
-            } else if (key == 'petLv') {
+            } else if (key == 'exp') {
               arr[6] = row[key]
+            } else if (key == 'petLv') {
+              arr[7] = row[key]
             } else if (key == 'money') {
-              arr[8] = row[key]
+              arr[9] = row[key]
+            } else if (key == 'phone') {
+              arr[1] = row[key]
             }
           }
           return arr

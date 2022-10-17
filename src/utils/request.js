@@ -22,6 +22,9 @@ service.interceptors.request.use(
       // please modify it according to the actual situation
       // console.log("request getToken: ",JSON.stringify(getToken()))
       config.headers['authorization'] = getToken()
+
+      // config.headers['menuId'] = getToken()  //请求header里添加 按钮或菜单的 menuId
+
     }
     return config
   },

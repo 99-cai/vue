@@ -70,54 +70,18 @@ export function delUser(id) {
       method: 'delete',
   })
 }
-
-
-
-// 获取角色列表
-export function getRolesList(params) {
+// 获取api列表 
+export function apiList() {
   return request({
-      url: `/user`,
-      method: 'get',
-      params
-  })
-}
-
-// 分配权限 /aoaoe/api/authorize/:id
-export function authorize(id, data) {
-  return request({
-      url: `/aoaoe/api/authorize/${id}`,
-      method: 'post',
-      data
-  })
-}
-// 获取分配权限弹窗内所需全部路由菜单数据 /aoaoe/api/getAllRouter 
-export function getAllRouter() {
-  return request({
-      url: `aoaoe/api/getAllRouter`,
+      url: `/api`,
       method: 'get',
   })
 }
-// 新增角色 /aoaoe/api/role/add
-export function addRoles(data) {
+// 根据id获取api信息
+export function api(id) {
   return request({
-      url: `/aoaoe/api/role/add`,
-      method: 'post',
-      data
-  })
-}
-//编辑角色
-export function editRoles(data, id) {
-  return request({
-      url: `/aoaoe/api/role/edit/${id}`,
-      method: 'post',
-      data
-  })
-}
-// 删除角色 /role/delete/:id
-export function deleteRoles(id, data) {
-  return request({
-      url: `/api/role/delete/${id}`,
-      method: 'post',
-      data
+      url: `/api/${id}`,
+    //   url: `/admin/api/boss/delete/${id}`,
+      method: 'get',
   })
 }
